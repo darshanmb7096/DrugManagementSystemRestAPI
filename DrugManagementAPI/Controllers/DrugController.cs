@@ -55,7 +55,7 @@ namespace DrugManagementAPI.Controllers
             DrugList.Remove(DrugToBeDeleted);
 
         }
-        [HttpGet("DisplayDrug")]        
+        [HttpGet("DisplayDrug/{DrugID}")]        
         
         public Drug DisplayeDrug(int DrugID)
         {
