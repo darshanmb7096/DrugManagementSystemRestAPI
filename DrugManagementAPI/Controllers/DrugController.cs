@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DrugManagementAPI.Models;
+using DrugManagement.Data.Entities;
+using DrugManagement.Data.Repositories;
 
 namespace DrugManagementAPI.Controllers
 {
@@ -8,60 +10,42 @@ namespace DrugManagementAPI.Controllers
     [ApiController]
     public class DrugController : ControllerBase
     {
+        public DrugRepository DrugRepository { get; set; }
+        public DrugController()
+        {
+            this.DrugRepository = new DrugRepository();  
+        }
         
 
-        private static List<Drug> DrugList = new List<Drug>()
-        {
-           new Drug
-           {
-               Name="Dolo360",
-               Id=123,
-               SerialNumber = "ABC123",
-               ManufacturedDate= new DateTime(2023,01,01),
-               ExpiredDate= new DateTime(2025,01,01),
-           },
-           new Drug
-           {
-               Name="Aspirin",
-               Id=456,
-               SerialNumber = "DEF456",
-               ManufacturedDate= new DateTime(2023,01,01),
-               ExpiredDate= new DateTime(2025,01,01),
-           },
-           new Drug
-           {
-               Name="HyglymG1",
-               Id=789,
-               SerialNumber = "GHI789",
-               ManufacturedDate= new DateTime(2023,01,01),
-           }
-
-        };
         [HttpGet("GetAllDrugs")]
-        public List<Drug> GetAllDrugs()    //Converting c# object to json is called serialization
+        public List<TblDrug> GetAllDrugs()    //Converting c# object to json is called serialization
         {
-            return DrugList;
+            return this.DrugRepository.GetAllDrugs();
         }
 
         [HttpPost("AddDrug")]
         public void AddDrug(Drug drug)  //Converting json to c# object is called Deserialization
         {
-            DrugList.Add(drug);
+            TblDrug tblDrug = new TblDrug();
+            tblDrug.SupplierId = 1;
+            tblDrug.SerialNumber = drug.SerialNumber;
+            tblDrug.Name = drug.Name;
+            tblDrug.ExpiryDate = drug.ExpiredDate;
+            this.DrugRepository.AddDrug(tblDrug);
         }
         [HttpDelete("DeleteDrug")]
         public void DeleteDrug(int DrugID)
         {
-            var DrugToBeDeleted = DrugList.Where(d=>d.Id==DrugID).FirstOrDefault();
-            DrugList.Remove(DrugToBeDeleted);
+            this.DrugRepository.DeleteDrug(DrugID);
 
         }
-        [HttpGet("DisplayDrug/{DrugID}")]        
+        /*[HttpGet("DisplayDrug/{DrugID}")]        
         
         public Drug DisplayeDrug(int DrugID)
         {
-            var DrugToBeDisplayed = DrugList.Where(d => d.Id == DrugID).FirstOrDefault();
+           var DrugToBeDisplayed = dmsContext.Where(d => d.Id == DrugID).FirstOrDefault();
             return DrugToBeDisplayed;
 
-        }
-    }
+        }*/
+}
 } 
