@@ -17,13 +17,13 @@ namespace DrugManagementAPI.Controllers
         }
         
 
-        [HttpGet("GetAllDrugs")]
+        [HttpGet]
         public List<TblDrug> GetAllDrugs()    //Converting c# object to json is called serialization
         {
             return this.DrugRepository.GetAllDrugs();
         }
 
-        [HttpPost("AddDrug")]
+        [HttpPost]
         public void AddDrug(Drug drug)  //Converting json to c# object is called Deserialization
         {
             TblDrug tblDrug = new TblDrug();
@@ -33,19 +33,19 @@ namespace DrugManagementAPI.Controllers
             tblDrug.ExpiryDate = drug.ExpiredDate;
             this.DrugRepository.AddDrug(tblDrug);
         }
-        [HttpDelete("DeleteDrug")]
+        [HttpDelete]
         public void DeleteDrug(int DrugID)
         {
             this.DrugRepository.DeleteDrug(DrugID);
 
         }
-        /*[HttpGet("DisplayDrug/{DrugID}")]        
-        
+        [HttpGet("{DrugID:int}")]
+
         public Drug DisplayeDrug(int DrugID)
         {
-           var DrugToBeDisplayed = dmsContext.Where(d => d.Id == DrugID).FirstOrDefault();
-            return DrugToBeDisplayed;
+            //var DrugToBeDisplayed = DmsContext.Where(d => d.Id == DrugID).FirstOrDefault();
+            return new Drug();
 
-        }*/
-}
+        }
+    }
 } 

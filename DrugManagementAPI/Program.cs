@@ -1,3 +1,5 @@
+using DrugManagementAPI;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +19,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//app.UseMiddleware<CustomMiddleware>();
+
+//app.UseMiddleware<BasicAuthenticationMiddleware>();
+
+app.UseMiddleware<JwtMidddleware>();
 
 app.UseAuthorization();
 

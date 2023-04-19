@@ -26,26 +26,26 @@ namespace DrugManagementAPI.Controllers
             }
         };
 
-        [HttpGet("GetAllSuppliers")]
+        [HttpGet]
         public List<Supplier> GetAllSuppliers()
         {
             return suppliers;
         }
 
-        [HttpPost("AddSupplier")]
+        [HttpPost]
         public void AddSupplier(Supplier supplier)
         {
             suppliers.Add(supplier);
         }
 
-        [HttpDelete("DeleteSupplier/{SupplierId:int}")]
+        [HttpDelete]
         public void DeleteSupplier(int SupplierId)
         {
             var SupplierToBeDeleted = suppliers.Where(s => s.SupplierId == SupplierId).FirstOrDefault();
             suppliers.Remove(SupplierToBeDeleted);
         }
 
-        [HttpGet("RetriewSupplier/{SupplierId:int}")]
+        [HttpGet("{SupplierId:int}")]
         public Supplier RetriewSupplier(int SupplierId)
         {
             var SupplierToBeDisplayed = suppliers.Where(s => s.SupplierId == SupplierId).FirstOrDefault();
